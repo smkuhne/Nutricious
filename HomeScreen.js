@@ -13,6 +13,8 @@ export default class HomeScreen extends Component {
     static navigationOptions = ({ navigation, screenProps }) => ({
         title: 'Eating Locales',
 
+        headerLeft: null,
+
         headerStyle: {
             backgroundColor: '#6F6FFF',
         },

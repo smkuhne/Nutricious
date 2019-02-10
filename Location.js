@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import {View, Text, Button,Alert,StyleSheet,FlatList} from 'react-native';
+
+import { db } from "./src/config/db.js";
+import { setUser, getUser } from "./Storage.js";
 locations = [{
   location: "Tercero",
   latitude: 38.5363,
@@ -93,7 +96,7 @@ export default class Location extends Component {
         })
         apprxLoc.pop();
         apprxLoc.push({
-          text: "Nearest Locale",
+          text: "Nearest Locale: ",
           location: name,
        })
         
@@ -113,7 +116,7 @@ export default class Location extends Component {
         );
         for (i = 0; i < locations.length; i++) { 
           if(haversineDistance(locations[i].longitude,locations[i].latitude,this.state.longitude,this.state.latitude)<0.001){
-             this.setState({
+            this.setState({
                atDC:locations[i].location
              })
              apprxLoc.pop()
@@ -138,7 +141,7 @@ export default class Location extends Component {
           })
           apprxLoc.pop();
           apprxLoc.push({
-            text: "Nearest: Locale",
+            text: "Nearest Locale: ",
             location: name,
          })
           

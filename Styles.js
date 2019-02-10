@@ -4,6 +4,12 @@ const styles =  StyleSheet.create({
     container: {
       flex: 1,
     },
+    special_container: {
+        flex: 1,
+        backgroundColor: '#6F6FFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     centered: {
         alignItems: 'center',
     },
