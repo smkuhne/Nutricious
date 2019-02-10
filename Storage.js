@@ -10,6 +10,16 @@ export const setItem =  async function (input) {
     await AsyncStorage.setItem("Allergens", input);
 }
 
+export const getPrefItem =  async function () {
+    let item = await AsyncStorage.getItem("Preferences");
+    //You'd want to error check for failed JSON parsing...
+    return JSON.parse(item);
+}
+
+export const setPrefItem =  async function (input) {
+    await AsyncStorage.setItem("Preferences", input);
+}
+
 export const getUser = async function () {
     let item = await AsyncStorage.getItem("Username");
 

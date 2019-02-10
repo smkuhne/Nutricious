@@ -5,7 +5,7 @@ import Location from './Location.js';
 import styles from "./Styles.js";
 
 import { db } from './src/config/db.js'
-import {getItem}from "./Storage.js";
+import {getItem, getPrefItem}from "./Storage.js";
 
 let localesRef = db.ref('/Locales');
 export default class HomeScreen extends Component {
@@ -46,14 +46,20 @@ export default class HomeScreen extends Component {
 
     async allergenCheck () {
         let obj = await getItem();
+        let pref = await getPrefItem();
 
         if(obj == null){
             obj = [];
         }
+        if(pref == null){
+            pref = [];
+        }
 
         this.setState({
              allergens: obj,
-             indeces: []
+             pref: [],
+             indeces: [],
+             preferences: pref,
         });
 
         for(const i of this.state.allergens){
@@ -84,6 +90,50 @@ export default class HomeScreen extends Component {
 
             this.state.indeces = [];
         }
+
+        if(this.state.preferences[0].value == false && this.state.preferences[1].value == false &&
+           this.state.preferences[2].value == false && this.state.preferences[3].value == false){
+               return;
+        }
+
+        for(i = 0; i < this.state.locales.length; i++){
+            for(j = 0; j < this.state.locales[i].list.length; j++){
+                this.state.indeces.push({x: i, y: j});
+            }
+        }
+
+        let k = 0;
+
+        for(const i of this.state.preferences){
+            if(i.value == true){
+                for(j = 0; j < this.state.locales.length; j++){
+                    for(h = 0; h < this.state.locales[j].list.length; h++){
+                        if(i.name == this.state.locales[j].list[h].type){
+                            this.state.indeces.splice(k, 1);
+                            k--;
+                        }
+                        k++;
+                    }
+                }
+            }
+        }
+        
+        let offset = 0;
+        let lastX = 0;
+        for(const i of this.state.indeces){
+            if(lastX != i.x){
+                lastX = i.x;
+                offset = 0;
+            }
+            this.state.locales[i.x].list.splice(i.y - offset, 1);
+            offset += 1;
+        }
+
+        this.state.indeces = [];
+
+        
+
+        
     }
 
     componentDidMount() {

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView, Text, CheckBox, View, AsyncStorage} from 'react-native';
 import styles from "./Styles.js";
-import HomeScreen from "./HomeScreen.js";
-import {getItem, setItem} from "./Storage.js";
+import {getItem, setItem, setPrefItem, getPrefItem} from "./Storage.js";
 
 export default class SettingsScreen extends Component {
 
@@ -48,25 +47,49 @@ export default class SettingsScreen extends Component {
                 }, {
                     value: false,
                     name: 'sesame',
+                }],
+            preferences: [{
+                    value: false,
+                    name: 'Pescatarian',
+                }, {
+                    value: false,
+                    name: 'Vegetarian',
+                }, {
+                    value: false,
+                    name: 'Halal',
+                }, {
+                    value: false,
+                    name: 'Vegan',
                 }]
         }
     }
 
     async componentWillMount() {
         let obj = await getItem();
+        let pref = await getPrefItem();
 
-        if(obj == null){
+        if(obj == null || obj == undefined){
             setItem(this.state.allergens);
+        } else {
+            this.setState({
+                allergens: obj,
+            });
         }
 
-        this.setState({
-            allergens: obj,
-        });
+        if(pref == null || pref == undefined){
+            setPrefItem(this.state.preferences);
+        } else {
+            this.setState({
+                preferences: pref,
+            });
+        }
+
+        
     }
 
     async setItem (){
         setItem(JSON.stringify(this.state.allergens));
-        HomeScreen.onEnter();
+        setPrefItem(JSON.stringify(this.state.preferences));
     }
 
     render() {
@@ -181,8 +204,67 @@ export default class SettingsScreen extends Component {
                         <View style={styles.entry_subheader}>
                             <CheckBox style={styles.text_subheader}
                                 value={this.state.allergens[7].value}
-                                onValueChanged={() => {
+                                onValueChange={() => {
                                     this.state.allergens[7].value = !this.state.allergens[7].value;
+                                    this.setItem();
+                                    this.forceUpdate();
+                                }}/>
+                        </View>
+                    </View>
+                    <View style={styles.entry_container}>
+                        <Text style={styles.text_header_bold}>Dietary Preferences</Text>
+                    </View>
+                    <View style={styles.entry_container}>
+                        <View style={styles.entry_header}>
+                            <Text style={styles.text_header}>Pescatarian</Text>
+                        </View>
+                        <View style={styles.entry_subheader}>
+                            <CheckBox style={styles.text_subheader}
+                                value={this.state.preferences[0].value}
+                                onValueChange={() => {
+                                    this.state.preferences[0].value = !this.state.preferences[0].value;
+                                    this.setItem();
+                                    this.forceUpdate();
+                                }}/>
+                        </View>
+                    </View>
+                    <View style={styles.entry_container}>
+                        <View style={styles.entry_header}>
+                            <Text style={styles.text_header}>Vegetarian</Text>
+                        </View>
+                        <View style={styles.entry_subheader}>
+                            <CheckBox style={styles.text_subheader}
+                                value={this.state.preferences[1].value}
+                                onValueChange={() => {
+                                    this.state.preferences[1].value = !this.state.preferences[1].value;
+                                    this.setItem();
+                                    this.forceUpdate();
+                                }}/>
+                        </View>
+                    </View>
+                    <View style={styles.entry_container}>
+                        <View style={styles.entry_header}>
+                            <Text style={styles.text_header}>Halal</Text>
+                        </View>
+                        <View style={styles.entry_subheader}>
+                            <CheckBox style={styles.text_subheader}
+                                value={this.state.preferences[2].value}
+                                onValueChange={() => {
+                                    this.state.preferences[2].value = !this.state.preferences[2].value;
+                                    this.setItem();
+                                    this.forceUpdate();
+                                }}/>
+                        </View>
+                    </View>
+                    <View style={styles.entry_container}>
+                        <View style={styles.entry_header}>
+                            <Text style={styles.text_header}>Vegan</Text>
+                        </View>
+                        <View style={styles.entry_subheader}>
+                            <CheckBox style={styles.text_subheader}
+                                value={this.state.preferences[3].value}
+                                onValueChange={() => {
+                                    this.state.preferences[3].value = !this.state.preferences[3].value;
                                     this.setItem();
                                     this.forceUpdate();
                                 }}/>
