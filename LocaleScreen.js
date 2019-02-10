@@ -48,6 +48,7 @@ export default class LocaleScreen extends Component {
                         </TouchableOpacity>
                     }
                     keyExtractor={(item, key) => key.toString()}
+                    ItemSeparatorComponent={() => <View style={styles.separator}></View>}
                     />
 
             </View>

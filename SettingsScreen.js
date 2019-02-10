@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { ScrollView, Text, CheckBox, View, AsyncStorage } from 'react-native';
+import { ScrollView, Text, CheckBox, View, AsyncStorage} from 'react-native';
 import styles from "./Styles.js";
+import HomeScreen from "./HomeScreen.js";
+import {getItem, setItem} from "./Storage.js";
 
 export default class SettingsScreen extends Component {
 
@@ -22,60 +24,82 @@ export default class SettingsScreen extends Component {
         super(props);
 
         this.state = {
-            allergens: {
-                milk: false,
-                egg: false,
-                peanut: false,
-                treenut: false,
-                soy: false,
-                wheat: false,
-                fish: false,
-                shellfish: false,
-                sesame: false,
-            }
+            allergens: [{
+                    value: false,
+                    name: 'lactose',
+                }, {
+                    value: false,
+                    name: 'gluten',
+                }, {
+                    value: false,
+                    name: 'peanut',
+                }, {
+                    value: false,
+                    name: 'treenut'
+                }, {
+                    value: false,
+                    name: 'soy',
+                }, {
+                    value: false,
+                    name: 'fish'
+                }, {
+                    value: false,
+                    name: 'shellfish',
+                }, {
+                    value: false,
+                    name: 'sesame',
+                }]
         }
     }
 
-    componentWillMount() {
-        AsyncStorage.getItem('Allergens')
-        .then((value) => {
-            if(value != null){
-                this.setState({
-                    allergens: JSON.parse(value),
-                });
-            }
+    async componentWillMount() {
+        let obj = await getItem();
+
+        if(obj == null){
+            setItem(this.state.allergens);
+        }
+
+        this.setState({
+            allergens: obj,
         });
+    }
+
+    async setItem (){
+        setItem(JSON.stringify(this.state.allergens));
+        HomeScreen.onEnter();
     }
 
     render() {
         return (
             <View style={styles.container}>
                 <ScrollView>
-                    <Text style={styles.text_header}>Allergens{"\n"}</Text>
+                    <View style={styles.entry_container}>
+                        <Text style={styles.text_header_bold}>Allergens</Text>
+                    </View>
                     <View style={styles.entry_container}>
                         <View style={styles.entry_header}>
-                            <Text style={styles.text_header}>Milk</Text>
+                            <Text style={styles.text_header}>Lactose</Text>
                         </View>
                         <View style={styles.entry_subheader}>
                             <CheckBox style={styles.text_subheader}
-                                value={this.state.allergens.milk}
+                                value={this.state.allergens[0].value}
                                 onValueChange={() => {
-                                    this.state.allergens.milk = !this.state.allergens.milk;
-                                    AsyncStorage.setItem("Allergens", JSON.stringify(this.state.allergens));
+                                    this.state.allergens[0].value = !this.state.allergens[0].value;
+                                    this.setItem();
                                     this.forceUpdate();
                                 }}/>
                         </View>
                     </View>
                     <View style={styles.entry_container}>
                         <View style={styles.entry_header}>
-                            <Text style={styles.text_header}>Egg</Text>
+                            <Text style={styles.text_header}>Gluten</Text>
                         </View>
                         <View style={styles.entry_subheader}>
                             <CheckBox style={styles.text_subheader}
-                                value={this.state.allergens.egg}
+                                value={this.state.allergens[1].value}
                                 onValueChange={() => {
-                                    this.state.allergens.egg = !this.state.allergens.egg;
-                                    AsyncStorage.setItem("Allergens", JSON.stringify(this.state.allergens));
+                                    this.state.allergens[1].value = !this.state.allergens[1].value;
+                                    this.setItem();
                                     this.forceUpdate();
                                 }}/>
                         </View>
@@ -86,10 +110,10 @@ export default class SettingsScreen extends Component {
                         </View>
                         <View style={styles.entry_subheader}>
                             <CheckBox style={styles.text_subheader}
-                                value={this.state.allergens.peanut}
+                                value={this.state.allergens[2].value}
                                 onValueChange={() => {
-                                    this.state.allergens.peanut = !this.state.allergens.peanut;
-                                    AsyncStorage.setItem("Allergens", JSON.stringify(this.state.allergens));
+                                    this.state.allergens[2].value = !this.state.allergens[2].value;
+                                    this.setItem();
                                     this.forceUpdate();
                                 }}/>
                         </View>
@@ -100,10 +124,10 @@ export default class SettingsScreen extends Component {
                         </View>
                         <View style={styles.entry_subheader}>
                             <CheckBox style={styles.text_subheader}
-                                value={this.state.allergens.treenut}
+                                value={this.state.allergens[3].value}
                                 onValueChange={() => {
-                                    this.state.allergens.treenut = !this.state.allergens.treenut;
-                                    AsyncStorage.setItem("Allergens", JSON.stringify(this.state.allergens));
+                                    this.state.allergens[3].value = !this.state.allergens[3].value;
+                                    this.setItem();
                                     this.forceUpdate();
                                 }}/>
                         </View>
@@ -114,24 +138,10 @@ export default class SettingsScreen extends Component {
                         </View>
                         <View style={styles.entry_subheader}>
                             <CheckBox style={styles.text_subheader}
-                                value={this.state.allergens.soy}
+                                value={this.state.allergens[4].value}
                                 onValueChange={() => {
-                                    this.state.allergens.soy = !this.state.allergens.soy;
-                                    AsyncStorage.setItem("Allergens", JSON.stringify(this.state.allergens));
-                                    this.forceUpdate();
-                                }}/>
-                        </View>
-                    </View>
-                    <View style={styles.entry_container}>
-                        <View style={styles.entry_header}>
-                            <Text style={styles.text_header}>Wheat</Text>
-                        </View>
-                        <View style={styles.entry_subheader}>
-                            <CheckBox style={styles.text_subheader}
-                                value={this.state.allergens.wheat}
-                                onValueChange={() => {
-                                    this.state.allergens.wheat = !this.state.allergens.wheat;
-                                    AsyncStorage.setItem("Allergens", JSON.stringify(this.state.allergens));
+                                    this.state.allergens[4].value = !this.state.allergens[4].value;
+                                    this.setItem();
                                     this.forceUpdate();
                                 }}/>
                         </View>
@@ -142,10 +152,10 @@ export default class SettingsScreen extends Component {
                         </View>
                         <View style={styles.entry_subheader}>
                             <CheckBox style={styles.text_subheader}
-                                value={this.state.allergens.fish}
+                                value={this.state.allergens[5].value}
                                 onValueChange={() => {
-                                    this.state.allergens.fish = !this.state.allergens.fish;
-                                    AsyncStorage.setItem("Allergens", JSON.stringify(this.state.allergens));
+                                    this.state.allergens[5].value = !this.state.allergens[5].value;
+                                    this.setItem();
                                     this.forceUpdate();
                                 }}/>
                         </View>
@@ -156,10 +166,10 @@ export default class SettingsScreen extends Component {
                         </View>
                         <View style={styles.entry_subheader}>
                             <CheckBox style={styles.text_subheader}
-                                value={this.state.allergens.shellfish}
+                                value={this.state.allergens[6].value}
                                 onValueChange={() => {
-                                    this.state.allergens.shellfish = !this.state.allergens.shellfish;
-                                    AsyncStorage.setItem("Allergens", JSON.stringify(this.state.allergens));
+                                    this.state.allergens[6].value = !this.state.allergens[6].value;
+                                    this.setItem();
                                     this.forceUpdate();
                                 }}/>
                         </View>
@@ -170,10 +180,10 @@ export default class SettingsScreen extends Component {
                         </View>
                         <View style={styles.entry_subheader}>
                             <CheckBox style={styles.text_subheader}
-                                value={this.state.allergens.sesame}
+                                value={this.state.allergens[7].value}
                                 onValueChanged={() => {
-                                    this.state.allergens.sesame = !this.state.allergens.sesame;
-                                    AsyncStorage.setItem("Allergens", JSON.stringify(this.state.allergens));
+                                    this.state.allergens[7].value = !this.state.allergens[7].value;
+                                    this.setItem();
                                     this.forceUpdate();
                                 }}/>
                         </View>

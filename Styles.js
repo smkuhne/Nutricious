@@ -4,12 +4,19 @@ const styles =  StyleSheet.create({
     container: {
       flex: 1,
     },
+    centered: {
+        alignItems: 'center',
+    },
+    separator: {
+        borderBottomColor: '#7F7F7F',
+        borderBottomWidth: 1,
+    },
     flatlist_container: {
         flex: 1,
     },
     entry_wrapper: {
-        borderBottomWidth: 2,
-        borderBottomColor: '#7F7F7F',
+        marginTop: 10,
+        marginBottom: 10,
     },
     entry_container: {
         flex: 1,
@@ -28,6 +35,10 @@ const styles =  StyleSheet.create({
     },
     text_header: {
         fontSize: 20,
+    },
+    text_header_bold: {
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     text_subheader: {
         fontSize: 15,
