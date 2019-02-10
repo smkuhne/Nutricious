@@ -15,6 +15,7 @@ export default class FoodScreen extends Component {
         },
 
         headerTintColor: '#FFFFFF',
+        
     };
 
     constructor(props){
@@ -32,12 +33,13 @@ export default class FoodScreen extends Component {
 
     render() {
         return (
-            <View style={styles.entry_container}>
+            <View style={styles.food_container}>
                 <Text style={styles.text_header}>{this.state.food.name}{"\n"}</Text>
                 <Text style={styles.text_subheader}>Type: {this.state.food.type}{"\n"}</Text>
                 <Text style={styles.text_subheader}>Available at: {this.state.food.place}{"\n"}</Text>
                 <Text style={styles.text_subheader}>Calories: {this.state.food.calories}{"\n"}</Text>
-                <Text style={styles.text_subheader}>Ingredients: {this.state.food.ingredients}{"\n"}</Text>
+                <Text style={styles.text_subheader}>Ingredients: {this.state.food.ingredients.join(", ")}{"\n"}</Text>
+                <Text style={styles.text_subheader}>Allergens: {this.state.food.allergens.join(", ")}{"\n"}</Text>
             </View>
         )
     }

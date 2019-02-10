@@ -15,6 +15,7 @@ export default class LocaleScreen extends Component {
         },
 
         headerTintColor: '#FFFFFF',
+        
     };
 
     constructor(props){
@@ -46,7 +47,7 @@ export default class LocaleScreen extends Component {
                             </View>
                         </TouchableOpacity>
                     }
-                    keyExtractor={(item, key) => key}
+                    keyExtractor={(item, key) => key.toString()}
                     />
 
             </View>

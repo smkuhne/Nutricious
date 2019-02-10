@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
 import styles from "./Styles.js";
-
 export default class HomeScreen extends Component {
-    static navigationOptions = {
+    
+    static navigationOptions = ({ navigation, screenProps }) => ({
         title: 'Eating Locales',
 
         headerStyle: {
@@ -16,8 +16,16 @@ export default class HomeScreen extends Component {
 
         headerTitleStyle: {
             color: '#FFFFFF',
-        }
-    };
+        },
+
+        headerRight: (
+            <TouchableOpacity
+                onPress={() => navigation.navigate("Settings")}
+                title="Pref">
+                <Image style={{marginRight: 10}}source={require('./images/settings.png')}/>
+            </TouchableOpacity>
+        ),
+    });
 
     constructor(props){1    
         super(props);
@@ -69,7 +77,7 @@ export default class HomeScreen extends Component {
                             </View>
                         </TouchableOpacity>
                     }
-                    keyExtractor={(item, key) => key}
+                    keyExtractor={(index, key) => key.toString()}
                     />
             </View>
         );

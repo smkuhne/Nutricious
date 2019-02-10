@@ -13,6 +13,7 @@ const styles =  StyleSheet.create({
     },
     entry_container: {
         flex: 1,
+        flexDirection: 'row',
         margin: 15,
     },
     entry_header: {
@@ -31,15 +32,9 @@ const styles =  StyleSheet.create({
     text_subheader: {
         fontSize: 15,
     },
-    welcome: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 10,
-    },
-    instructions: {
-      textAlign: 'center',
-      color: '#333333',
-      marginBottom: 5,
+    food_container: {
+        flex: 1,
+        margin: 15,
     },
   });
 
