@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, FlatList, TouchableOpacity, Image } from 'react-native';
 import styles from "./Styles.js";
+
+import { db } from './src/config/db.js'
+
+let localesRef = db.ref('/Locales');
 export default class HomeScreen extends Component {
     
     static navigationOptions = ({ navigation, screenProps }) => ({
@@ -34,6 +38,17 @@ export default class HomeScreen extends Component {
     }
 
     componentDidMount() {
+
+        localesRef.once('value').then(snapshot => {
+            // snapshot.val() is the dictionary with all your keys/values from the '/store' path
+            this.setState({
+                loading: false,
+                locales: snapshot.val(),
+            })
+        });
+
+        return;
+
         return fetch("http://www.axondes.com/testing/document.json")
             .then((response) => response.json())
             .then((responseJson) => {
